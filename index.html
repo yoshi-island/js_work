@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+		<title>Audio API test</title>
+
+		<!-- Bootstrap core CSS -->
+		<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" id="themesid">
+
+		<!-- Custom styles -->
+		<link href="https://getbootstrap.com/examples/theme/theme.css" rel="stylesheet">
+		<link href="https://getbootstrap.com/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+		<link href="https://getbootstrap.com/examples/offcanvas/offcanvas.css" rel="stylesheet">
+
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="row row-offcanvas row-offcanvas-right">
+				<div class="col-xs-12 col-sm-9">
+					<div class="row">
+
+						<!-- ボタン -->
+						<div class="container theme-showcase" role="main">
+							<p>
+								<button type="button" class="btn btn-lg btn-primary" id="PlayButton">Play</button>
+							</p>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			function play() {
+
+				window.AudioContext = window.AudioContext || window.webkitAudioContext; //クロスブラウザ対応
+				var audioCtx = new AudioContext();
+
+		for (key = 0; key < music.length; key++) {
+
+					// 音階を定義
+					if(music[key] == "Do"){var hz = 262;}
+					if(music[key] == "re"){var hz = 294;}
+					if(music[key] == "mi"){var hz = 330;}
+					if(music[key] == "fa"){var hz = 349;}
+					if(music[key] == "so"){var hz = 392;}
+					if(music[key] == "la"){var hz = 440;}
+					if(music[key] == "si"){var hz = 494;}
+					if(music[key] == "Doo"){var hz = 523;}
+					if(music[key] == "ree"){var hz = 587;}
+					if(music[key] == "mii"){var hz = 659;}
+					if(music[key] == "faa"){var hz = 699;}
+					if(music[key] == "soo"){var hz = 784;}
+					if(music[key] == "laa"){var hz = 880;}
+					if(music[key] == "sii"){var hz = 988;}
+
+					// 音を出す
+					if(hz != "none"){
+						var osciillator = audioCtx.createOscillator(); //音を作成
+						osciillator.frequency.value = hz; //ヘルツ指定
+					var audioDestination = audioCtx.destination; //音の出力先定義
+					osciillator.connect(audioDestination); //出力先のスピーカーに接続
+					osciillator.start = osciillator.start || osciillator.noteOn; //クロスブラウザ対応
+					osciillator.start(); //音を出す
+						osciillator.stop(audioCtx.currentTime + time[key]); //音をtime[key]秒後にストップ
+					}
+
+					// 音と音の間の時間確保
+					Sleep(time[key]+0.1);
+
+				}
+			}
+
+			// 処理を遅らせる関数
+			function Sleep(T){
+			   var d1 = new Date().getTime();
+			   var d2 = new Date().getTime();
+			   while( d2 < d1+1000*T ){	//T秒待つ
+				   d2=new Date().getTime();
+			   }
+			   return;
+			}
+
+			// 音程を格納
+			var music = [];
+			music.push("soo");
+			music.push("mii");
+			music.push("Doo");
+			music.push("so");
+			music.push("so");
+			music.push("so");
+			music.push("la");
+			music.push("Doo");
+			music.push("faa");
+			music.push("laa");
+			music.push("soo");
+
+			// 音の長さを格納
+			var time = [];
+			time.push(0.7);
+			time.push(0.2);
+			time.push(0.7);
+			time.push(0.2);
+			time.push(0.2);
+			time.push(0.2);
+			time.push(0.2);
+			time.push(0.2);
+			time.push(0.2);
+			time.push(0.2);
+			time.push(0.7);
+
+			// 実行
+			var Button1 = document.getElementsByClassName("btn btn-lg btn-primary");
+			Button1[0].addEventListener("click", play, false);
+
+		</script>
+	</body>
+</html>
